@@ -1,0 +1,10 @@
+--- Demonstrating Runtime Polymorphism via Shape Pointers ---
+
+Shape 1 Area: 78.54
+Shape 2 Area: 24.00
+Shape 3 Area: 12.00
+
+--- End of Program (Destructors will clean up resources) ---
+[Shape Destructor called]
+[Shape Destructor called]
+[Shape Destructor called]
