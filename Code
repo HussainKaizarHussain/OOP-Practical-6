@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <memory>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+// Abstract Base Class: Shape
+class Shape {
+public:
+    // Pure virtual function making Shape an abstract class.
+    // Abstract classes cannot be instantiated directly.
+    virtual double area() const = 0;
+
+    // Virtual destructor ensuring proper cleanup of derived objects through base pointers
+    virtual ~Shape() {
+        cout << "[Shape Destructor called]\n";
+    }
+};
+
+// Derived Class 1: Circle
+class Circle : public Shape {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    double area() const override {
+        return 3.141592653589793 * radius * radius;
+    }
+};
+
+// Derived Class 2: Rectangle
+class Rectangle : public Shape {
+private:
+    double length;
+    double width;
+
+public:
+    Rectangle(double l, double w) : length(l), width(w) {}
+
+    double area() const override {
+        return length * width;
+    }
+};
+
+// Derived Class 3: Triangle
+class Triangle : public Shape {
+private:
+    double base;
+    double height;
+
+public:
+    Triangle(double b, double h) : base(b), height(h) {}
+
+    double area() const override {
+        return 0.5 * base * height;
+    }
+};
+
+int main() {
+    cout << fixed << setprecision(2);
+
+    cout << "--- Demonstrating Runtime Polymorphism via Shape Pointers ---\n\n";
+
+    // Storing derived objects using pointers to the abstract base class (Shape)
+    vector<unique_ptr<Shape>> shapes;
+    shapes.push_back(make_unique<Circle>(5.0));          // Radius = 5.0
+    shapes.push_back(make_unique<Rectangle>(4.0, 6.0));  // Length = 4.0, Width = 6.0
+    shapes.push_back(make_unique<Triangle>(3.0, 8.0));   // Base = 3.0, Height = 8.0
+
+    int index = 1;
+    for (const auto& shape : shapes) {
+        // Runtime polymorphism resolves the correct override of area() at runtime
+        cout << "Shape " << index++ << " Area: " << shape->area() << "\n";
+    }
+
+    cout << "\n--- End of Program (Destructors will clean up resources) ---\n";
+    return 0;
+}
